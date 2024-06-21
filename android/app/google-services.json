@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "286937070787",
+    "project_id": "imageapp-82062",
+    "storage_bucket": "imageapp-82062.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286937070787:android:d84a877c41165de3f8f676",
+        "android_client_info": {
+          "package_name": "com.example.imageapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPTxX_LfHXKSI1YeEDNNeA6XiyvVm-cDE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
