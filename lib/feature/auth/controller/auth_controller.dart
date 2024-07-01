@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:get/get.dart';
 import 'package:imageapp/constant/app_string.dart';
-import 'package:imageapp/feature/home/home_screen.dart';
+import 'package:imageapp/feature/bottombar/bottom_bar.dart';
 
 class AuthController extends GetxController {
   Rx<FormzSubmissionStatus> loginFormzStatus =
@@ -27,7 +27,6 @@ class AuthController extends GetxController {
             email: emailController.text,
             password: passwordController.text,
           );
-          loginFormzStatus.value = FormzSubmissionStatus.success;
           emailController.clear();
           passwordController.clear();
           passwordConfirmController.clear();
@@ -37,9 +36,10 @@ class AuthController extends GetxController {
               .doc(userCred.user?.uid)
               .set({'images': []}).then(
             (value) => Get.offAll(
-              () => const HomeScreen(),
+              () => const BottomBarScreen(),
             ),
           );
+          loginFormzStatus.value = FormzSubmissionStatus.success;
         } else {
           loginFormzStatus.value = FormzSubmissionStatus.failure;
           errorMessage.value = AppString.samePass;
@@ -61,7 +61,7 @@ class AuthController extends GetxController {
           email: emailController.text,
           password: passwordController.text,
         );
-        Get.offAll(() => const HomeScreen());
+        Get.offAll(() => const BottomBarScreen());
         loginFormzStatus.value = FormzSubmissionStatus.success;
         emailController.clear();
         passwordController.clear();

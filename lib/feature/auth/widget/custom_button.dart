@@ -23,17 +23,16 @@ class CustomButton extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          width: width ?? AppStyle.width(context),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25),
             color: color ?? AppStyle.white,
           ),
           child: Padding(
-            padding: AppStyle.smallEdgeInsets,
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
             child: Text(
               name,
               textAlign: TextAlign.center,
-              style: AppStyle.primaryHeading(size: 20),
+              style: AppStyle.headingBlack(size: 20),
             ),
           ),
         ),

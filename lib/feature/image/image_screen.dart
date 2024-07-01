@@ -3,23 +3,24 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:imageapp/constant/app_assets.dart';
 import 'package:imageapp/constant/app_string.dart';
 import 'package:imageapp/constant/app_style.dart';
 import 'package:imageapp/feature/home/controller/home_controller.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class ImageScreenMobile extends StatefulWidget {
+class ImageScreen extends StatefulWidget {
   final List<dynamic> imagesList;
-  const ImageScreenMobile({
+  const ImageScreen({
     super.key,
     required this.imagesList,
   });
 
   @override
-  State<ImageScreenMobile> createState() => _ImageScreenMobileState();
+  State<ImageScreen> createState() => _ImageScreenState();
 }
 
-class _ImageScreenMobileState extends State<ImageScreenMobile> {
+class _ImageScreenState extends State<ImageScreen> {
   final homeController = Get.put(HomeController());
   late PageController _pageController;
   double rotate = 0;
@@ -78,22 +79,23 @@ class _ImageScreenMobileState extends State<ImageScreenMobile> {
                   scale == 1 ? scale += 1 : scale = 1;
                 });
               },
-              child: CachedNetworkImage(
-                imageUrl: widget.imagesList[index].url,
-                progressIndicatorBuilder: (context, url, progress) {
-                  return Skeletonizer(
-                      enabled: true,
-                      child: SizedBox(
-                        height: AppStyle.height(context),
-                        width: AppStyle.width(context),
-                      ));
-                },
-                errorWidget: (context, url, error) {
-                  return Text(
-                    "Something went wrong",
-                    style: AppStyle.errorText(),
-                  );
-                },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: CachedNetworkImage(
+                  imageUrl: widget.imagesList[index].url,
+                  placeholder: (context, url) => Skeletonizer(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.asset(
+                        AppAssets.bg1,
+                        fit: BoxFit.fill,
+                        height: 250,
+                        width: 250,
+                      ),
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
               ),
             ),
           ),
@@ -114,14 +116,14 @@ class _ImageScreenMobileState extends State<ImageScreenMobile> {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
         child: Container(
-          color: AppStyle.primary.withOpacity(0.8),
+          color: AppStyle.black.withOpacity(0.2),
           padding: const EdgeInsets.only(top: 20, left: 5),
           child: Row(
             children: [
               IconButton(
                 icon: const Icon(
                   Icons.arrow_back,
-                  color: AppStyle.white,
+                  color: AppStyle.black,
                 ),
                 onPressed: () => Get.back(),
               ),
@@ -139,14 +141,14 @@ class _ImageScreenMobileState extends State<ImageScreenMobile> {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
           child: Container(
-            color: AppStyle.primary.withOpacity(0.8),
+            color: AppStyle.black.withOpacity(0.2),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 IconButton(
                   icon: const Icon(
                     Icons.rotate_left,
-                    color: AppStyle.white,
+                    color: AppStyle.black,
                     size: 30,
                   ),
                   onPressed: () {
@@ -158,7 +160,7 @@ class _ImageScreenMobileState extends State<ImageScreenMobile> {
                 IconButton(
                   icon: const Icon(
                     Icons.rotate_right,
-                    color: AppStyle.white,
+                    color: AppStyle.black,
                     size: 30,
                   ),
                   onPressed: () {
@@ -170,7 +172,7 @@ class _ImageScreenMobileState extends State<ImageScreenMobile> {
                 IconButton(
                   icon: const Icon(
                     Icons.delete,
-                    color: AppStyle.white,
+                    color: AppStyle.black,
                     size: 30,
                   ),
                   onPressed: () {
@@ -188,72 +190,67 @@ class _ImageScreenMobileState extends State<ImageScreenMobile> {
                 IconButton(
                   icon: const Icon(
                     Icons.more_horiz,
-                    color: AppStyle.white,
+                    color: AppStyle.black,
                     size: 30,
                   ),
                   onPressed: () {
                     showModalBottomSheet<void>(
-                      backgroundColor: Colors.grey.shade200.withOpacity(0.8),
                       context: context,
                       builder: (BuildContext context) {
                         return ClipRect(
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                            child: SizedBox(
-                              height: 200,
-                              child: Padding(
-                                padding: const EdgeInsets.all(15.0),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      AppString.imageInfo,
-                                      style: AppStyle.headingBlack(),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          AppString.name,
-                                          style: AppStyle.headingBlack()
-                                              .copyWith(fontSize: 15),
+                          child: SizedBox(
+                            height: 200,
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    AppString.imageInfo,
+                                    style: AppStyle.headingBlack(size: 20),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '${AppString.name}:',
+                                        style: AppStyle.normalText(),
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          widget.imagesList[index].name,
+                                          maxLines: 3,
+                                          style: AppStyle.normalText(),
                                         ),
-                                        const SizedBox(
-                                          width: 5,
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        '${AppString.uploadDate}: ',
+                                        style: AppStyle.normalText(),
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          widget.imagesList[index].date,
+                                          maxLines: 2,
+                                          style: AppStyle.normalText(),
                                         ),
-                                        Expanded(
-                                          child: Text(
-                                            widget.imagesList[index].name,
-                                            maxLines: 3,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          AppString.uploadDate,
-                                          style: AppStyle.headingBlack()
-                                              .copyWith(fontSize: 15),
-                                        ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            widget.imagesList[index].date,
-                                            maxLines: 2,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
                           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:imageapp/feature/auth/login_screen.dart';
+import 'package:imageapp/feature/bottombar/bottom_bar.dart';
 import 'package:imageapp/feature/home/home_screen.dart';
 
 class AuthService extends StatefulWidget {
@@ -20,7 +21,7 @@ class _AuthServiceState extends State<AuthService> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: isLoggedIn ? const HomeScreen() : const LoginScreen(),
+      body: isLoggedIn ? const  BottomBarScreen() : const LoginScreen(),
     );
   }
 }

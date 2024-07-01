@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppStyle {
-  static EdgeInsets verysmallEdgeInsets = const EdgeInsets.all(5);
-  static EdgeInsets smallEdgeInsets = const EdgeInsets.all(10);
-  static EdgeInsets mediumEdgeInsets = const EdgeInsets.all(20);
-  static EdgeInsets largeEdgeInsets = const EdgeInsets.all(50);
-  static EdgeInsets vertical10EdgeInsets =
-      const EdgeInsets.symmetric(vertical: 10);
-
-  //color
+  //Color
   static const Color primary = Color.fromARGB(255, 76, 224, 244);
   static const Color error = Color(0xffba1a1a);
   static const Color black = Colors.black;
@@ -16,12 +9,10 @@ class AppStyle {
   static const Color success = Colors.green;
   static const Color grey = Colors.grey;
 
-  //sizes
-  static double vsmallFontSize = 10;
-  static double smallFontSize = 12;
-  static double mediumFontSize = 14;
-  static double largeFontSize = 16;
-  static double xlargeFontSize = 20;
+  //Font Family
+  static const String bebasFont = 'Bebas';
+  static const String oswladFont = 'Oswald';
+  static const String concertFont = 'Concert';
 
   static double height(BuildContext context) {
     return MediaQuery.of(context).size.height;
@@ -36,37 +27,41 @@ class AppStyle {
     return TextStyle(
       color: black,
       fontSize: size,
-      fontWeight: FontWeight.w700,
+      fontWeight: FontWeight.bold,
+      fontFamily: bebasFont,
+      letterSpacing: 1.5,
     );
   }
 
-  static TextStyle primaryHeading({double size = 15}) {
-    return TextStyle(
-      color: primary,
-      fontSize: size,
-      fontWeight: FontWeight.w700,
-    );
-  }
-
-  static TextStyle normalText({Color textColor = AppStyle.white}) {
+  static TextStyle normalText({Color textColor = AppStyle.black}) {
     return TextStyle(
       color: textColor,
       fontSize: 15,
+      fontFamily: concertFont,
     );
   }
 
-  static TextStyle whiteHeading({double fontSize = 15}) {
-    return TextStyle(
-      color: white,
-      fontSize: fontSize,
-      fontWeight: FontWeight.w700,
-    );
-  }
-
-  static TextStyle textFieldStyle({Color textColor = AppStyle.white}) {
-    return TextStyle(
-      color: textColor,
+  static TextStyle textFieldStyle() {
+    return const TextStyle(
+      color: black,
       fontSize: 15,
+      fontFamily: oswladFont,
+    );
+  }
+
+  static TextStyle textFieldHintStyle() {
+    return const TextStyle(
+      color: grey,
+      fontSize: 15,
+      fontFamily: oswladFont,
+    );
+  }
+
+  static TextStyle textFieldErrorStyle() {
+    return const TextStyle(
+      color: error,
+      fontSize: 10,
+      fontFamily: oswladFont,
     );
   }
 
@@ -74,45 +69,8 @@ class AppStyle {
     return const TextStyle(
       color: error,
       fontSize: 13,
-    );
-  }
-
-  static InputDecoration textFieldPrimary({required String hintText}) {
-    return InputDecoration(
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(
-          color: primary,
-          width: 1,
-        ),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(
-          color: primary,
-          width: 1,
-        ),
-      ),
-      errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(
-          color: error,
-          width: 1,
-        ),
-      ),
-      focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(
-          color: error,
-          width: 1,
-        ),
-      ),
-      errorStyle: textFieldStyle().copyWith(color: error),
-      contentPadding: const EdgeInsets.only(top: 10, left: 10),
-      fillColor: primary.withOpacity(0.2),
-      filled: true,
-      hintText: hintText,
-      hintStyle: textFieldStyle(textColor: primary),
+      fontFamily: oswladFont,
+      fontWeight: FontWeight.w700,
     );
   }
 }

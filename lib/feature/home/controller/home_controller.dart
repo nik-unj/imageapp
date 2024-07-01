@@ -9,8 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:imageapp/constant/app_string.dart';
-import 'package:imageapp/constant/app_style.dart';
-import 'package:imageapp/feature/home/home_screen.dart';
 import 'package:imageapp/feature/home/model/image_model.dart';
 import 'package:intl/intl.dart';
 
@@ -30,9 +28,7 @@ class HomeController extends GetxController {
     try {
       selectedImages.map((file) async {
         var path = File(file.path);
-        print(path);
         var imageName = getFileName(path);
-        print(imageName);
         file.readAsBytes().then((value) async {
           Reference reference =
               storage.ref().child("${user?.uid}/${imageName.toString()}");
@@ -91,7 +87,8 @@ class HomeController extends GetxController {
 
   void selectImages() async {
     try {
-      List<XFile> selectedImages = await imagePicker.pickMultiImage();
+      List<XFile> selectedImages =
+          await imagePicker.pickMultiImage(imageQuality: 1);
       // MOBILE
       if (!kIsWeb && selectedImages.isNotEmpty) {
         //show snackbar
@@ -115,103 +112,10 @@ class HomeController extends GetxController {
           maxWidth: 300,
         );
         uploadImages(selectedImages);
-      } else {
-        Get.snackbar(
-          "Info",
-          "No image selected",
-          snackPosition: SnackPosition.BOTTOM,
-          margin: const EdgeInsets.all(10),
-          icon: const Icon(Icons.hourglass_empty),
-        );
       }
     } catch (e, s) {
       print(e);
       print(s);
-    }
-  }
-
-  Future<void> postReport() async {
-    if (reportFormKey.currentState!.validate()) {
-      print(selectedReportImages);
-      String date = DateFormat('yyyy-MM-dd').format(DateTime.now()).toString();
-      List<String> imagesName = [];
-      if (selectedReportImages.isNotEmpty) {
-        selectedReportImages.map((file) async {
-          var path = File(file.path);
-          var imageName = getFileName(path);
-          imagesName.add(imageName);
-          print(imagesName);
-          await file.readAsBytes().then((value) async {
-            Reference reference =
-                storage.ref().child("${user?.uid}/${getFileName(path)}");
-            reference.putString(base64Encode(value),
-                format: PutStringFormat.base64,
-                metadata: SettableMetadata(contentType: 'image/png'));
-          });
-        }).toList();
-      }
-
-      FirebaseFirestore.instance
-          .collection(AppString.reportCollection)
-          .doc(Timestamp.now().toDate().toString())
-          .set({
-        'report': {
-          'sumarry': reportController.text,
-          'date': date,
-          'user': user?.email,
-          'image': imagesName,
-        }
-      }).then((value) {
-        Get.offAll(
-          () => const HomeScreen(),
-        );
-        Get.snackbar(
-          "Sucess",
-          "Reported Successfully",
-          colorText: AppStyle.white,
-          snackPosition: SnackPosition.BOTTOM,
-          margin: const EdgeInsets.all(10),
-          icon: const Icon(
-            Icons.check_circle,
-            color: AppStyle.white,
-          ),
-          duration: const Duration(seconds: 2),
-          backgroundColor: AppStyle.success,
-        );
-      });
-    }
-  }
-
-  void postFeedback() {
-    if (feedbackFormKey.currentState!.validate()) {
-      String date = DateFormat('yyyy-MM-dd').format(DateTime.now()).toString();
-      FirebaseFirestore.instance
-          .collection(AppString.feedbackCollection)
-          .doc(Timestamp.now().toDate().toString())
-          .set({
-        'feedback': {
-          'sumarry': reportController.text,
-          'date': date,
-          'user': user?.email
-        }
-      }).then((value) {
-        Get.offAll(
-          () => const HomeScreen(),
-        );
-        Get.snackbar(
-          "Sucess",
-          "Thanks for the feedback",
-          colorText: AppStyle.white,
-          snackPosition: SnackPosition.BOTTOM,
-          margin: const EdgeInsets.all(10),
-          icon: const Icon(
-            Icons.check_circle,
-            color: AppStyle.white,
-          ),
-          duration: const Duration(seconds: 2),
-          backgroundColor: AppStyle.success,
-        );
-      });
     }
   }
 }

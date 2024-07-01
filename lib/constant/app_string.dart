@@ -1,6 +1,6 @@
 class AppString {
   static const String wentWrong = "Something went wrong";
-  static const String login = "Login";
+  static const String login = "Sign In";
   static const String register = "Register";
   static const String alreadyUser = "Already a user?";
   static const String newUser = "Don't have an account?";
@@ -19,6 +19,13 @@ class AppString {
   static const String reportIssue = "Report an issue";
   static const String feedback = "Feedback";
   static const String submit = "Submit";
+  static const String userInfo = "User Info";
+  static const String requiredField = "This Field is required";
+  static const String shareExp = "Share your experience ...";
+  static const String describeIssue = "Describe the issue ...";
+  static const String addImage = "Add images";
+  static const String hello = "Hello";
+  static const String upload = "Upload";
 
   //Firebase Collections
   static const String userCollection = "Users";
